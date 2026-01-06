@@ -165,6 +165,11 @@ func getConfigName() string {
 	if runtime.GOOS == "windows" {
 		return filepath.Join(os.Getenv("USERPROFILE"), ".upx.cfg")
 	}
+
+	if xdgConfigHome := os.Getenv("XDG_CONFIG_HOME"); xdgConfigHome != "" {
+		return filepath.Join(xdgConfigHome, "upx", "config")
+	}
+
 	return filepath.Join(os.Getenv("HOME"), ".upx.cfg")
 }
 

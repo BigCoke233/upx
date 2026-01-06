@@ -35,6 +35,11 @@ func getDBName() string {
 	if runtime.GOOS == "windows" {
 		return filepath.Join(os.Getenv("USERPROFILE"), ".upx.db")
 	}
+
+	if xdgDataHome := os.Getenv("XDG_DATA_HOME"); xdgDataHome != "" {
+		return filepath.Join(xdgDataHome, "upx", "upx.db")
+	}
+
 	return filepath.Join(os.Getenv("HOME"), ".upx.db")
 }
 
