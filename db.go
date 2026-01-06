@@ -187,7 +187,13 @@ func diffFileMetas(src []*fileMeta, dst []*fileMeta) []*fileMeta {
 }
 
 func initDB() (err error) {
-	db, err = leveldb.OpenFile(getDBName(), nil)
+	dbName := getDBName()
+	dir := filepath.Dir(dbName)
+	if err := os.MkdirAll(dir, 0700); err != nil {
+		PrintErrorAndExit("create db directory: %v", err)
+	}
+
+	db, err = leveldb.OpenFile(dbName, nil)
 	if err != nil {
 		Print("db %v %s", err, getDBName())
 	}

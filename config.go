@@ -149,6 +149,11 @@ func saveConfigToFile() {
 	}
 	s := hashEncode(base64.StdEncoding.EncodeToString(b))
 
+	dir := filepath.Dir(confname)
+	if err := os.MkdirAll(dir, 0700); err != nil {
+		PrintErrorAndExit("create config directory: %v", err)
+	}
+
 	fd, err := os.Create(confname)
 	if err != nil {
 		PrintErrorAndExit("save config: %v", err)
